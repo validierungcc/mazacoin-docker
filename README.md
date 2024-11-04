@@ -8,7 +8,6 @@ https://mazacoin.org/
 Example docker-compose.yml
 
      ---
-    version: '3.9'
     services:
         maza:
             container_name: maza
@@ -25,4 +24,4 @@ Example docker-compose.yml
 
 **RPC Access**
 
-    curl --user '<user>:<password>' --data-binary '{"jsonrpc":"2.0","id":"curltext","method":"getinfo","params":[]}' -H "Content-Type: application/json" http://127.0.0.1:12832
+    curl --user 'mazarpc:<password>' --data-binary '{"jsonrpc":"2.0","id":"curltext","method":"getinfo","params":[]}' -H "Content-Type: application/json" http://127.0.0.1:12832
