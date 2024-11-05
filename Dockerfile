@@ -18,11 +18,14 @@ WORKDIR /maza
 RUN wget http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz && \
     tar -xzvf db-4.8.30.NC.tar.gz && \
     cd db-4.8.30.NC/build_unix && \
+    wget -O ../dist/config.guess https://git.savannah.gnu.org/cgit/config.git/plain/config.guess && \
+    wget -O ../dist/config.sub https://git.savannah.gnu.org/cgit/config.git/plain/config.sub && \
     ../dist/configure --prefix=$BDB_PREFIX --enable-cxx && \
     make -j$(nproc) && \
     make install && \
     cd ../.. && \
     rm -rf db-4.8.30.NC db-4.8.30.NC.tar.gz
+
 
 RUN git clone https://github.com/MazaCoin/maza.git /maza/maza && \
     cd /maza/maza && \
