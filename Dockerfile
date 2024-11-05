@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     git make g++ wget autoconf automake libtool \
     libevent-dev pkg-config libboost-all-dev \
-    libssl-dev bash ca-certificates bsdmainutils && \
+    libssl-dev ca-certificates bsdmainutils && \
     addgroup --gid 1000 maza && \
     adduser --disabled-password --gecos "" --home /maza --ingroup maza --uid 1000 maza && \
     mkdir -p /maza/.maza && \
@@ -36,12 +36,11 @@ RUN mkdir -p /output && \
     cp /maza/maza/src/mazad /output/
 
 FROM ubuntu:18.04
-ENV DEBIAN_FRONTEND=noninteractive
 ENV LD_LIBRARY_PATH="/usr/local/lib"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    libevent-dev libboost-all-dev libssl-dev ca-certificates && \
+    libevent-dev libboost-all-dev ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /output/libdb_cxx-4.8.so /usr/local/lib/
