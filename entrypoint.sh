@@ -21,7 +21,7 @@ echo "Created new configuration at ${MAZA_CONF}"
 fi
 
 if [ $# -eq 0 ]; then
-  /maza/maza/src/mazad -rpcbind=:4444 -rpcallowip=* -printtoconsole=1
+  /maza/maza/src/mazad -rpcbind=0.0.0.0 -rpcport=12832 -rpcallowip=0.0.0.0/0 -printtoconsole=1
 else
   exec "$@"
 fi

@@ -15,8 +15,8 @@ Example docker-compose.yml
             restart: unless-stopped
             user: 1000:1000
             ports:
-                - '4555:4555'
-                - '127.0.0.1:4444:4444'
+                - '12835:12835'
+                - '127.0.0.1:12832:12832'
             volumes:
                 - 'maza:/maza/.maza'
     volumes:
