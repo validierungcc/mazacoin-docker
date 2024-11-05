@@ -1,6 +1,6 @@
 **Maza Coin**
 
-https://github.com/MazaCoin/maza
+https://github.com/validierungcc/mazacoin-docker
 
 https://mazacoin.org/
 
@@ -11,7 +11,7 @@ Example docker-compose.yml
     services:
         maza:
             container_name: maza
-            image: vfvalidierung/mazacoin
+            image: vfvalidierung/mazacoin:latest
             restart: unless-stopped
             ports:
                 - '12835:12835'
