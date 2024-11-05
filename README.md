@@ -11,9 +11,8 @@ Example docker-compose.yml
     services:
         maza:
             container_name: maza
-            image: vfvalidierung/maza
+            image: vfvalidierung/mazacoin
             restart: unless-stopped
-            user: 1000:1000
             ports:
                 - '12835:12835'
                 - '127.0.0.1:12832:12832'

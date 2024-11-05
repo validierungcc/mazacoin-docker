@@ -1,40 +1,36 @@
-# Builder Image
 FROM ubuntu:18.04 AS builder
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BDB_PREFIX="/usr/local"
 ENV LD_LIBRARY_PATH="/usr/local/lib"
 
-# Install required packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     git make g++ wget autoconf automake libtool \
     libevent-dev pkg-config libboost-all-dev \
-    libssl-dev bash ca-certificates bsdmainutils
-
-RUN addgroup --gid 1000 maza && \
+    libssl-dev bash ca-certificates bsdmainutils && \
+    addgroup --gid 1000 maza && \
     adduser --disabled-password --gecos "" --home /maza --ingroup maza --uid 1000 maza && \
     mkdir -p /maza/.maza && \
-    chown -R maza:maza /maza/.maza
+    chown -R maza:maza /maza/.maza && \
+    rm -rf /var/lib/apt/lists/*
 
-# Build Berkeley DB 4.8
 WORKDIR /maza
 RUN wget http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz && \
     tar -xzvf db-4.8.30.NC.tar.gz && \
     cd db-4.8.30.NC/build_unix && \
     ../dist/configure --prefix=$BDB_PREFIX --enable-cxx && \
-    make && \
-    make install
+    make -j$(nproc) && \
+    make install && \
+    cd ../.. && \
+    rm -rf db-4.8.30.NC db-4.8.30.NC.tar.gz
 
-# Clone and build Maza
-WORKDIR /maza
 RUN git clone https://github.com/MazaCoin/maza.git /maza/maza && \
     cd /maza/maza && \
     git checkout tags/v0.16.3 && \
     ./autogen.sh && \
     ./configure --without-gui --with-bdb=$BDB_PREFIX && \
-    make
+    make -j$(nproc)
 
-# Copy compiled files to /output for easy access
 RUN mkdir -p /output && \
     cp /usr/local/lib/libdb_cxx-4.8.so /output/ && \
     cp /maza/maza/src/mazad /output/
